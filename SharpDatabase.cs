@@ -131,7 +131,7 @@ namespace SharpDatabase
             {
                 if (ex)
                 {
-                    throw new InvalidOperationException("В этом классе 1 линия");
+                    throw new InvalidOperationException("There is 1 line in this class");
                 }
                 else
                 {
