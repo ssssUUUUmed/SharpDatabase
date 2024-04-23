@@ -10,15 +10,15 @@ namespace SharpDatabase
 {
     public static class Database
     {
-        private static MySqlConnection connection;
+        private static MySqlConnection _connection;
         public static DatabaseLine ExecuteCommand(string sqlCommand)
         {
 
             try
             {
-                connection.Open();
+                _connection.Open();
 
-                MySqlCommand command = new MySqlCommand(sqlCommand, connection);
+                MySqlCommand command = new MySqlCommand(sqlCommand, _connection);
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
                     if (!reader.HasRows)
@@ -49,23 +49,19 @@ namespace SharpDatabase
             }
             finally
             {
-                if (connection.State == System.Data.ConnectionState.Open)
+                if (_connection.State == System.Data.ConnectionState.Open)
                 {
-                    connection.Close();
+                    _connection.Close();
                 }
             }
         }
         public static void ConnectToDataBase(string database, string server = "127.0.0.1", string userId = "root", string password = "")
         {
-            Console.WriteLine("Началось подключение к базе данных");
-
             try
             {
                 string connectionString = $"server={server};user id={userId};password={password};database={database}";
                 MySqlConnection conn = new MySqlConnection(connectionString);
-                connection = conn;
-
-                Console.WriteLine("Подключение прошло удачно");
+                _connection = conn;
             }
             catch (Exception e)
             {
@@ -73,7 +69,10 @@ namespace SharpDatabase
             }
         }
 
-
+        public static MySqlConnection GetConnection()
+        {
+            return _connection;
+        }
     }
 
     public class DatabaseLine
