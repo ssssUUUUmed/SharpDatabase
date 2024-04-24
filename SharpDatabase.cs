@@ -57,15 +57,12 @@ namespace SharpDatabase
         }
         public static void ConnectToDataBase(string database, string server = "127.0.0.1", string userId = "root", string password = "")
         {
-            Console.WriteLine("Началось подключение к базе данных");
 
             try
             {
                 string connectionString = $"server={server};user id={userId};password={password};database={database}";
                 MySqlConnection conn = new MySqlConnection(connectionString);
                 connection = conn;
-
-                Console.WriteLine("Подключение прошло удачно");
             }
             catch (Exception e)
             {
