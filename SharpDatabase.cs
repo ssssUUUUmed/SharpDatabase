@@ -31,7 +31,7 @@ namespace SharpDatabase
                     {
                         if (!reader.HasRows)
                         {
-                            return new DatabaseLine(null, null, connection.BeginTransaction());
+                            return new DatabaseLine(null, null);
                         }
 
                         List<string> columnNames = new List<string>();
@@ -46,12 +46,12 @@ namespace SharpDatabase
                             }
                         }
 
-                        return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                        return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -60,14 +60,12 @@ namespace SharpDatabase
         {
             try
             {
-                connection.Open();
-
                 MySqlCommand command = new MySqlCommand(sqlCommand, connection);
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
                     if (!reader.HasRows)
                     {
-                        return new DatabaseLine(null, null, connection.BeginTransaction());
+                        return new DatabaseLine(null, null);
                     }
 
                     List<string> columnNames = new List<string>();
@@ -82,16 +80,12 @@ namespace SharpDatabase
                         }
                     }
 
-                    return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                    return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                 }
             }
             catch (Exception ex)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
-            }
-            finally
-            {
-                connection.Close();
+                throw ex;
             }
         }
 
@@ -99,14 +93,13 @@ namespace SharpDatabase
         {
             try
             {
-                connection.Open();
                 command.Connection = connection;
 
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
                     if (!reader.HasRows)
                     {
-                        return new DatabaseLine(null, null, connection.BeginTransaction());
+                        return new DatabaseLine(null, null);
                     }
 
                     List<string> columnNames = new List<string>();
@@ -121,16 +114,12 @@ namespace SharpDatabase
                         }
                     }
 
-                    return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                    return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                 }
             }
             catch (Exception ex)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
-            }
-            finally
-            {
-                connection.Close();
+                throw ex;
             }
         }
 
@@ -147,7 +136,7 @@ namespace SharpDatabase
                     {
                         if (!reader.HasRows)
                         {
-                            return new DatabaseLine(null, null, connection.BeginTransaction());
+                            return new DatabaseLine(null, null);
                         }
 
                         List<string> columnNames = new List<string>();
@@ -162,12 +151,12 @@ namespace SharpDatabase
                             }
                         }
 
-                        return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                        return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -187,7 +176,7 @@ namespace SharpDatabase
                     {
                         if (!reader.HasRows)
                         {
-                            return new DatabaseLine(null, null, connection.BeginTransaction());
+                            return new DatabaseLine(null, null);
                         }
 
                         List<string> columnNames = new List<string>();
@@ -202,12 +191,12 @@ namespace SharpDatabase
                             }
                         }
 
-                        return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                        return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                     }
                 }
                 catch(Exception ex)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -225,7 +214,7 @@ namespace SharpDatabase
                     {
                         if (!reader.HasRows)
                         {
-                            return new DatabaseLine(null, null, connection.BeginTransaction());
+                            return new DatabaseLine(null, null);
                         }
 
                         List<string> columnNames = new List<string>();
@@ -240,12 +229,12 @@ namespace SharpDatabase
                             }
                         }
 
-                        return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                        return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -254,14 +243,13 @@ namespace SharpDatabase
         {
             try
             {
-                await connection.OpenAsync();
                 command.Connection = connection;
 
                 using (DbDataReader reader = await command.ExecuteReaderAsync())
                 {
                     if (!reader.HasRows)
                     {
-                        return new DatabaseLine(null, null, connection.BeginTransaction());
+                        return new DatabaseLine(null, null);
                     }
 
                     List<string> columnNames = new List<string>();
@@ -276,31 +264,26 @@ namespace SharpDatabase
                         }
                     }
 
-                    return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                    return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                 }
             }
             catch (Exception ex)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                throw ex;
             }
         }
 
-        public static async Task<DatabaseLine> ExecuteCommandAsync(MySqlConnection connection,string sqlCommand)
+        public static async Task<DatabaseLine> ExecuteCommandAsync(MySqlConnection connection, string sqlCommand)
         {
             try
             {
-                await connection.OpenAsync();
-
+                
                 using (MySqlCommand command = new MySqlCommand(sqlCommand, connection))
                 using (DbDataReader reader = await command.ExecuteReaderAsync())
                 {
                     if (!reader.HasRows)
                     {
-                        return new DatabaseLine(null, null, connection.BeginTransaction());
+                        return new DatabaseLine(null, null);
                     }
 
                     List<string> columnNames = new List<string>();
@@ -315,16 +298,12 @@ namespace SharpDatabase
                         }
                     }
 
-                    return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                    return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                 }
             }
             catch (Exception ex)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                throw ex;
             }
         }
 
@@ -350,7 +329,7 @@ namespace SharpDatabase
                 }
                 catch (Exception ex)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -361,8 +340,6 @@ namespace SharpDatabase
 
             try
             {
-                connection.Open();
-
                 using (MySqlCommand command = new MySqlCommand(sqlCommand, connection))
                 {
                     command.Parameters.AddWithValue("@value", value);
@@ -373,11 +350,7 @@ namespace SharpDatabase
             }
             catch (Exception ex)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
-            }
-            finally
-            {
-                connection.Close();
+                throw ex;
             }
         }
 
@@ -403,7 +376,7 @@ namespace SharpDatabase
                 }
                 catch(Exception ex)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -414,8 +387,6 @@ namespace SharpDatabase
 
             try
             {
-                await connection.OpenAsync();
-
                 using (MySqlCommand command = new MySqlCommand(sqlCommand, connection))
                 {
                     command.Parameters.AddWithValue("@value", value);
@@ -426,11 +397,7 @@ namespace SharpDatabase
             }
             catch (Exception ex)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                throw ex;
             }
         }
 
@@ -457,7 +424,7 @@ namespace SharpDatabase
                 }
                 catch(Exception ex)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -468,8 +435,6 @@ namespace SharpDatabase
 
             try
             {
-                await connection.OpenAsync();
-
                 using (MySqlCommand command = new MySqlCommand(sqlCommand, connection))
                 {
                     command.Parameters.AddWithValue("@updateValue", updateValue);
@@ -481,27 +446,21 @@ namespace SharpDatabase
             }
             catch (Exception ex)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                throw ex;
             }
         }
 
         //--------------------------------------------------------------
 
-        public static List<DatabaseLine> ExecuteOperationsWithSharedConnection(params Func<MySqlConnection, DatabaseLine>[] operations)
+        public static List<DatabaseLine> ExecuteOperationsWithSharedConnection(params Func<DatabaseLine>[] operations)
         {
             var results = new List<DatabaseLine>();
 
             using (var conn = new MySqlConnection(_connectionString))
             {
-                conn.Open();
-
                 foreach (var operation in operations)
                 {
-                    results.Add(operation(conn));
+                    results.Add(operation());
                 }
 
                 return results;
@@ -538,18 +497,18 @@ namespace SharpDatabase
                                     columnNames.Add(reader.GetName(i));
                                     columnValues.Add(reader[i].ToString());
                                 }
-                                return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                                return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                             }
                             else
                             {
-                                return new DatabaseLine(null, null, connection.BeginTransaction());
+                                return new DatabaseLine(null, null);
                             }
                         }
                     }
                 }
                 catch(Exception e)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), e.Message);
+                    return new DatabaseLine(null, null);
                 }
             }
         }
@@ -565,8 +524,6 @@ namespace SharpDatabase
                         command.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
                     }
 
-                    await connection.OpenAsync();
-
                     using (var reader = await command.ExecuteReaderAsync() as MySqlDataReader)
                     {
                         if (await reader.ReadAsync())
@@ -579,22 +536,18 @@ namespace SharpDatabase
                                 columnNames.Add(reader.GetName(i));
                                 columnValues.Add(reader[i].ToString());
                             }
-                            return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray(), connection.BeginTransaction());
+                            return new DatabaseLine(columnNames.ToArray(), columnValues.ToArray());
                         }
                         else
                         {
-                            return new DatabaseLine(null, null, connection.BeginTransaction());
+                            return new DatabaseLine(null, null);
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), e.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                throw e;
             }
         }
 
@@ -626,7 +579,7 @@ namespace SharpDatabase
                 }
                 catch(Exception ex)
                 {
-                    throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
+                    throw ex;
                 }
             }
             return rows.ToArray();
@@ -637,7 +590,6 @@ namespace SharpDatabase
             List<DatabaseRow> rows = new List<DatabaseRow>();
             try
             {
-                await connection.OpenAsync();
                 using (var command = new MySqlCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
@@ -656,11 +608,7 @@ namespace SharpDatabase
             }
             catch (Exception ex)
             {
-                throw new ExceptionDatabase(connection.BeginTransaction(), ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                throw ex;
             }
             return rows.ToArray();
         }
@@ -671,30 +619,17 @@ namespace SharpDatabase
         }
     }
 
-    public class ExceptionDatabase : Exception
-    {
-        public DbTransaction Transaction;
-        public ExceptionDatabase(DbTransaction tr, string message) : base(message)
-        {
-            Transaction = tr;
-        }
-    }
 
     public class DatabaseLine
     {
         private string[] columName;
         private string[] columValue;
 
-        private DbTransaction transaction;
-
-        public DatabaseLine(string[] columName, string[] columValue, DbTransaction transaction)
+        public DatabaseLine(string[] columName, string[] columValue)
         {
             this.columName = columName;
             this.columValue = columValue;
-            this.transaction = transaction;
         }
-
-        public DbTransaction GetTransaction() => transaction;
 
         public bool Read() => columName != null && columValue != null;
 
@@ -755,7 +690,7 @@ namespace SharpDatabase
                     columValue.Add(line.GetValueFromIndex(i));
                 }
 
-                DatabaseLine newLine = new DatabaseLine(columName.ToArray(), columValue.ToArray(), transaction);
+                DatabaseLine newLine = new DatabaseLine(columName.ToArray(), columValue.ToArray());
                 lines.Add(newLine);
             }
 
